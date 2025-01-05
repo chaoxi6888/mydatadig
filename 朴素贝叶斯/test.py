@@ -2,6 +2,7 @@ import math
 
 import numpy as np
 import pandas as pd
+from matplotlib import pyplot as plt
 from numpy import random
 
 
@@ -115,7 +116,7 @@ class Mybayes:
 
 # 导入数据
 name = ['sepal-lengthl', 'sepal-widthl', 'petal-length', ' petal-width', 'class']
-data_resource = pd.read_csv("iris.csv", names=name)
+data_resource = pd.read_csv("iris.csv", names=name, header=0)
 dataresource = np.array(data_resource).tolist()
 split_ratio = input("请输入参与训练数据集比例,只需输入百分比前的整数值即可:")
 ratio = int(split_ratio)
@@ -132,3 +133,40 @@ print("预测的类别是:", classprob)
 # 评估分类器的预测准确率
 accuary = flower.valueatecorrect()
 print("该分类器的准确率为:", (accuary * 100), "%")
+
+# 确保类别名称一致
+iris_types = ['setosa', 'versicolor', 'virginica']
+
+# 定义 data_plot 为 dataresource
+data_plot = dataresource
+x_axis = 'petal-length'
+y_axis = ' petal-width'  # Note the leading space
+plt.figure(1, figsize=(8, 5))
+
+# Subplot 1: Original data with class labels
+plt.subplot(1, 2, 1)
+plt.title('Original data with class')
+for iris_type in iris_types:
+    plt.scatter(data_resource[x_axis][data_resource['class'] == iris_type],
+                data_resource[y_axis][data_resource['class'] == iris_type], label=iris_type)
+plt.xlabel(x_axis)
+plt.ylabel(y_axis)
+plt.legend()
+
+# Subplot 2: Classification results from Bayes algorithm
+plt.subplot(1, 2, 2)
+plt.title('Class from Bayes algorithm')
+class_data = np.empty((len(data_plot), 1), dtype=int)
+for i in range(len(data_plot)):
+    con_vector = data_plot[i]
+    input_data = con_vector[:-1]
+    classprob = flower.bayesianclassifier(input_data)
+    class_data[i] = iris_types.index(classprob)
+for iris_type in iris_types:
+    index_condition = (class_data == iris_types.index(iris_type)).flatten()
+    testx = data_resource[x_axis][index_condition]
+    testy = data_resource[y_axis][index_condition]
+    plt.scatter(testx, testy, label=iris_type)
+plt.ylabel(y_axis)
+plt.legend()
+plt.show()
