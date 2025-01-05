@@ -44,7 +44,7 @@ def calcEntropy(data_set):
     entropy = 0.0
     for label in labels_count.keys():
         prob = (float(labels_count[label]) / num_data)
-        entropy = prob * math.log(prob, 2)
+        entropy -= prob * math.log(prob, 2)
     return entropy, num_data
 
 
