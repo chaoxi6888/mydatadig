@@ -83,7 +83,7 @@ def getPrioFeature(dataset):
     return prior_feature, prior_feature_information
 
 
-def buildDecisionTree(dataset, labels1):
+def buildDecisionTree(dataset, labels):
     if is_leaves(dataset) == 1:
         return dataset[0][-1]
     elif is_leaves(dataset) == 2:
@@ -91,17 +91,17 @@ def buildDecisionTree(dataset, labels1):
         return majorityVote(class_list)
     prior_feature, prior_feature_information = getPrioFeature(dataset)
     m = prior_feature + 1
-    labels_value = labels1[prior_feature]
+    labels_value = labels[prior_feature]
     tree = {labels_value: {}}
-    del labels1[prior_feature]
+    del labels[prior_feature]
     for i in range(0, len(prior_feature_information)):
-        curr_labels = labels1[:]
+        curr_labels = labels[:]
         name = prior_feature_information[i][0]
         feature_data = prior_feature_information[i][2]
         feature_value_data = []
         for data in feature_data:
-            datal = data[:m] + data[m + 1:]
-            feature_value_data.append(datal)
+            data1 = data[:m] + data[m + 1:]
+            feature_value_data.append(data1)
         tree[labels_value][name] = buildDecisionTree(feature_value_data, curr_labels)
     return tree
 
