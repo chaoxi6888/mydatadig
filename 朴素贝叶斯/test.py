@@ -1,5 +1,4 @@
 import math
-
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -16,7 +15,6 @@ class Mybayes:
         train_size = int(self.ratio * num_data / 100)
         np.random.shuffle(self.data_set)
         train_data = self.data_set[:train_size]
-        # print( "train_data"，train_data)
         test_data = self.data_set[train_size:]
         return train_data, test_data
 
@@ -30,7 +28,7 @@ class Mybayes:
                 numbyclass_dict[every_data[-1]] = 0
             data_dict[every_data[-1]].append(every_data)
             numbyclass_dict[every_data[-1]] += 1
-        print("numbyclass_dict", numbyclass_dict)
+        # print("numbyclass_dict", numbyclass_dict)
         return data_dict, numbyclass_dict
 
     @staticmethod
