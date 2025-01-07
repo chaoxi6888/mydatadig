@@ -131,4 +131,4 @@ if __name__ == '__main__':  # 主函数
     data_set = loadDataSet()  # 加载数据集
     labels = ["收入压力", "有足够时间照顾", "不影响职业发展"]  # 定义标签
     D_tree = buildDecisionTree(data_set, labels)  # 构建决策树
-    print(D_tree)
+    dot = visualize_tree(D_tree, labels)
