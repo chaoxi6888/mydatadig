@@ -1,6 +1,9 @@
 import pandas as pd  # 导入pandas库
 import operator  # 导入operator库
 import math  # 导入math库
+import pydotplus
+from graphviz import Digraph
+from IPython.display import Image
 
 
 def loadDataSet():  # 定义加载数据集的函数
@@ -104,8 +107,28 @@ def buildDecisionTree(dataset, labels1):  # 定义构建决策树的函数
     return tree  # 返回决策树
 
 
+def visualize_tree(tree, feature_names):
+    def add_nodes_edges(tree, dot=None):
+        if dot is None:
+            dot = Digraph()
+            dot.attr(fontname="SimHei")  # 指定支持中文的字体
+            dot.node(name=str(id(tree)), label=next(iter(tree)))
+        for k, v in tree.items():
+            if isinstance(v, dict):
+                dot.node(name=str(id(v)), label=next(iter(v)))
+                dot.edge(str(id(tree)), str(id(v)), label=str(k))
+                add_nodes_edges(v, dot=dot)
+            else:
+                dot.node(name=str(id(v)), label=str(v))
+                dot.edge(str(id(tree)), str(id(v)), label=str(k))
+        return dot
+
+    dot = add_nodes_edges(tree)
+    return dot
+
+
 if __name__ == '__main__':  # 主函数
     data_set = loadDataSet()  # 加载数据集
-    labels = ["收入压力", "有足够时间照顾", "影响职业发展", "母子健康风险"]  # 定义标签
+    labels = ["收入压力", "有足够时间照顾", "不影响职业发展"]  # 定义标签
     D_tree = buildDecisionTree(data_set, labels)  # 构建决策树
-    print(D_tree)  # 打印决策树
+    print(D_tree)
