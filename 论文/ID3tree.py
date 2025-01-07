@@ -3,7 +3,6 @@ import operator  # 导入operator库
 import math  # 导入math库
 import pydotplus
 from graphviz import Digraph
-from IPython.display import Image
 
 
 def loadDataSet():  # 定义加载数据集的函数
